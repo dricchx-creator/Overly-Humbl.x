@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Overly Humble (OvH) - High-end nonchalant streetwear for the survivors.">
+    <title>Overly Humble | OvH Survivor Mode</title>
+    <style>
+        /* --- CORE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important; /* Forces custom cursor */
+        }
+
+        body, html {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 6px;
+            height: 6px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-follower {
+            width: 30px;
+            height: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        .cursor-active {
+            transform: scale(2.5);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #ffffff;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+        }
+
+        .hero-nav {
+            position: absolute;
+            top: 0;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            padding: 30px 0;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            z-index: 10;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.8rem;
+            background: linear-gradient(to bottom, #ffffff 0%, #7c7c7c 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 15vw, 10rem);
+            margin: 0;
+            letter-spacing: -5px;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #f0f0f0 0%, #444 50%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 0px 20px rgba(255,255,255,0.1));
+        }
+
+        .hero-subtitle {
+            font-size: 12px;
+            letter-spacing: 8px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 18px 45px;
+            border: 1px solid #333;
+            color: #fff;
+            text-decoration: none;
+            font-size: 10px;
+            letter-spacing: 4px;
+            transition: 0.5s ease;
+        }
+
+        .hero-btn:hover {
+            border-color: #fff;
+            background: #fff;
+            color: #000;
+        }
+
+        /* --- COUNTDOWN SECTION --- */
+        .drop-timer {
+            background-color: #0a0a0a;
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .timer-label {
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: clamp(15px, 5vw, 40px);
+        }
+
+        .time-block span {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            background: linear-gradient(to bottom, #fff, #444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .time-block small {
+            display: block;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #444;
+            margin-top: 5px;
+        }
+
+        /* --- PRODUCT GRID --- */
+        .products {
+            padding: 100px 5%;
+        }
+
+        .section-header h2 {
+            font-size: 10px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #444;
+            margin-bottom: 50px;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            position: relative;
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            background-color: #111;
+            aspect-ratio: 3/4;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .product-overlay span {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid #fff;
+            padding: 10px 20px;
+        }
+
+        .product-card:hover .product-image img { transform: scale(1.05); }
+        .product-card:hover .product-overlay { opacity: 1; }
+
+        .product-info { margin-top: 20px; }
+        .product-info h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .product-info p { font-size: 11px; color: #666; margin: 5px 0; }
+        .product-info .price { font-size: 12px; color: #fff; font-weight: bold; }
+
+        /* --- OVERLAYS --- */
+        .grain {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 9997;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    <div class="grain"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <nav class="hero-nav">
+            <div>Collection 01</div>
+            <div class="logo">OvH</div>
+            <div>Vault [0]</div>
+        </nav>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Survivor</h1>
+            <p class="hero-subtitle">OVERLY HUMBLE // EST 2026</p>
+            <a href="#vault" class="hero-btn">ENTER THE VAULT</a>
+        </div>
+    </section>
+
+    <!-- Countdown Timer -->
+    <section class="drop-timer">
+        <div class="timer-container">
+            <p class="timer-label">Next Drop In:</p>
+            <div id="countdown">
+                <div class="time-block"><span id="days">00</span><small>Days</small></div>
+                <div class="time-block"><span id="hours">00</span><small>Hrs</small></div>
+                <div class="time-block"><span id="minutes">00</span><small>Min</small></div>
+                <div class="time-block"><span id="seconds">00</span><small>Sec</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="products" id="vault">
+        <div class="section-header">
+            <h2>Seasonal Pieces</h2>
+        </div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/600x800/111/fff?text=SURVIVOR+HOODIE" alt="Survivor Hoodie">
+                    <div class="product-overlay"><span>View Details</span></div>
+                </div>
+                <div class="product-info">
+                    <h3>Survivor Mode Hoodie</h3>
+                    <p>Washed Blue / Distressed</p>
+                    <span class="price">$120.00</span>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://via.placeholder.com/600x800/111/fff?text=CHROME+JOGGERS" alt="Leather Joggers">
+                    <div class="product-overlay"><span>View Details</span></div>
+                </div>
+                <div class="product-info">
+                    <h3>Chrome Leather Joggers</h3>
+                    <p>Matte Black / Heavyweight</p>
+                    <span class="price">$150.00</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // --- CURSOR LOGIC ---
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        const links = document.querySelectorAll('a, .product-card, .logo');
+
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            follower.style.left = (e.clientX - 12) + 'px';
+            follower.style.top = (e.clientY - 12) + 'px';
+        });
+
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => follower.classList.add('cursor-active'));
+            link.addEventListener('mouseleave', () => follower.classList.remove('cursor-active'));
+        });
+
+        // --- TIMER LOGIC ---
+        const dropDate = new Date("June 30, 2026 00:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = dropDate - now;
+            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        }, 1000);
+    </script>
+</body>
+</html>
+initial launch of OvH site
